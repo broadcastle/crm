@@ -1,8 +1,8 @@
 package manage
 
 import (
+	"broadcastle.co/code/crm/code/db"
 	"broadcastle.co/code/crm/code/utils"
-	"broadcastle.co/code/crm/manage/db"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

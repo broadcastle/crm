@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"broadcastle.co/code/crm/manage"
+	"broadcastle.co/code/crm/code/manage"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -18,7 +18,6 @@ var RootCmd = &cobra.Command{
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 
 	if !debugLog {

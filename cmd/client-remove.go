@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"broadcastle.co/code/crm/manage"
+	"broadcastle.co/code/crm/code/manage"
 	"github.com/spf13/cobra"
 )
 
