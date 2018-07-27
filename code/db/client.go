@@ -16,6 +16,36 @@ type Contact struct {
 	Name   string
 	Email  string
 	Number string
+
+	Street string
+	City   string
+	State  string
+	Zip    string
+	Notes  []Note
+
+	Status   Status
+	StatusID uint
+
+	NoContact bool
+}
+
+// Note has information about a contact.
+type Note struct {
+	gorm.Model
+	ContactID uint
+
+	Text   string
+	Header string
+}
+
+// Status of the current client relationship.
+type Status struct {
+	gorm.Model
+
+	ColdLead   bool
+	Prospect   bool
+	Evangelist bool
+	Client     bool
 }
 
 // Create a contact in the database.

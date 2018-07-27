@@ -9,22 +9,19 @@ import (
 
 // Init starts the database.
 func Init() {
-	db.InitSQLite()
-
-	db.DB.AutoMigrate(&db.Contact{})
-
+	db.Init()
 }
 
 // Close ends the manage package.
 func Close() {
-	db.DB.Close()
+	db.Close()
 }
 
 // ContactCreate starts the client creation process.
 func ContactCreate(cmd *cobra.Command, args []string) {
 
-	Init()
-	defer Close()
+	db.Init()
+	defer db.Close()
 
 	logrus.Info("creating a client through cli")
 
@@ -34,30 +31,26 @@ func ContactCreate(cmd *cobra.Command, args []string) {
 
 	fast, _ := cmd.Flags().GetBool("fast")
 
-	name, err := input(cmd, "name", "Client Name", "", false, false)
+	contact := db.Contact{}
+
+	contact.Name, err = input(cmd, "name", "Client Name", "", false, false)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	email, err := input(cmd, "email", "Client Email", "", false, true)
+	contact.Email, err = input(cmd, "email", "Client Email", "", false, false)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	phone, err := input(cmd, "phone", "Client Phone Number", "", fast, false)
+	contact.Number, err = input(cmd, "phone", "Client Phone Number", "", fast, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	logrus.Debugf("basic client info\nName: %s\nEmail: %s\nPhone Number: %s", name, email, phone)
+	logrus.Debugf("basic client info\nName: %s\nEmail: %s\nPhone Number: %s", contact.Name, contact.Email, contact.Number)
 
-	c := db.Contact{
-		Name:   name,
-		Email:  email,
-		Number: phone,
-	}
-
-	if err := c.Create(); err != nil {
+	if err := contact.Create(); err != nil {
 		logrus.Fatal(err)
 	}
 
@@ -66,8 +59,8 @@ func ContactCreate(cmd *cobra.Command, args []string) {
 // ContactEdit changes a contact based on the given id.
 func ContactEdit(cmd *cobra.Command, args []string) {
 
-	Init()
-	defer Close()
+	db.Init()
+	defer db.Close()
 
 	id, err := utils.UfS(args[0])
 	if err != nil {
@@ -109,8 +102,8 @@ func ContactRemove(cmd *cobra.Command, args []string) {
 
 	logrus.Debug("beginning removal process.")
 
-	Init()
-	defer Close()
+	db.Init()
+	defer db.Close()
 
 	for _, x := range args {
 
