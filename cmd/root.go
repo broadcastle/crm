@@ -20,13 +20,13 @@ var RootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 func Execute() {
 
-	if !debugLog {
-		logrus.SetLevel(logrus.DebugLevel)
-		logrus.Info("debug text enabled")
+	if err := RootCmd.Execute(); err != nil {
+		logrus.Fatal(err)
 	}
 
-	if err := RootCmd.Execute(); err != nil {
-		logrus.Fatalln(err)
+	if debugLog {
+		logrus.SetLevel(logrus.DebugLevel)
+		logrus.Info("debug text enabled")
 	}
 
 	manage.Init()
@@ -50,7 +50,7 @@ func initConfig() {
 		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
-			logrus.Fatalln(err)
+			logrus.Fatal(err)
 		}
 
 		// Search config in home directory with name ".crm" (without extension).
@@ -62,6 +62,6 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		logrus.Debugln("Using config file:", viper.ConfigFileUsed())
+		logrus.Debugf("Using config file: %s", viper.ConfigFileUsed())
 	}
 }

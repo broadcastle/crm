@@ -8,10 +8,10 @@ import (
 // removeCmd represents the remove command
 var removeCmd = &cobra.Command{
 	Use:   "remove",
-	Short: "A brief description of your command",
+	Short: "Remove a contact.",
 	Run:   manage.ContactRemove,
 }
 
 func init() {
-	clientCmd.AddCommand(removeCmd)
+	contactCmd.AddCommand(removeCmd)
 }

@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
+	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -24,7 +26,7 @@ func InputHidden(hint, value string) (string, error) {
 
 		stars += "*"
 
-		if x > 10 {
+		if x > 6 {
 			break
 		}
 	}
@@ -69,19 +71,41 @@ func InputVisible(hint, value string) (string, error) {
 	}
 
 	// Receive text
+	return stringInput(value), nil
+
+}
+
+// InputBool provides a hint for a bool value.
+func InputBool(hint string, value bool) (bool, error) {
+
+	fmt.Printf("%s [%v](true/false): ", hint, value)
+
+	r := stringInput(strconv.FormatBool(value))
+
+	result, err := strconv.ParseBool(r)
+	if err != nil {
+		fmt.Printf("input was not recognized, using default value of %v instead", value)
+		return value, nil
+	}
+
+	return result, nil
+}
+
+func stringInput(value string) string {
+
 	reader := bufio.NewReader(os.Stdin)
 	text, err := reader.ReadString('\n')
 	if err != nil {
-		return "", err
+		logrus.Fatal(err)
 	}
 
 	// Return input or default value.
 	text = strings.TrimSpace(text)
 
 	if text == "" {
-		return value, nil
+		return value
 	}
 
-	return text, nil
+	return text
 
 }

@@ -22,18 +22,19 @@ func InitSQLite() {
 
 		home, err := homedir.Dir()
 		if err != nil {
-			logrus.Fatalln(err)
+			logrus.Fatal(err)
 		}
 
 		file = path.Join(home, ".crm.db")
 
-	}
+		logrus.Debugf("unable to get a database path from the configuration file\nusing default location of %s", file)
 
-	logrus.Debugf("using %s as database.", file)
+	}
 
 	DB, err = gorm.Open("sqlite3", file)
 	if err != nil {
-		logrus.Fatalln(err)
+		logrus.Fatal(err)
 	}
 
+	logrus.Debugf("using %s as database", file)
 }

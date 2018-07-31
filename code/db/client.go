@@ -2,6 +2,7 @@ package db
 
 import (
 	"errors"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -17,16 +18,12 @@ type Contact struct {
 	Email  string
 	Number string
 
-	Street string
-	City   string
-	State  string
-	Zip    string
-	Notes  []Note
+	Notes []Note
 
-	Status   Status
-	StatusID uint
+	Relationship   Relationship
+	RelationshipID uint
 
-	NoContact bool
+	Contacted bool
 }
 
 // Note has information about a contact.
@@ -34,18 +31,26 @@ type Note struct {
 	gorm.Model
 	ContactID uint
 
-	Text   string
 	Header string
+	Text   string
+
+	Task bool
+	Due  time.Time
+
+	Call  bool
+	Email bool
+	Event time.Time
 }
 
-// Status of the current client relationship.
-type Status struct {
+// Relationship describes what this contact does.
+type Relationship struct {
 	gorm.Model
 
-	ColdLead   bool
-	Prospect   bool
-	Evangelist bool
-	Client     bool
+	Lead       bool
+	Advocate   bool
+	Customer   bool
+	Subscriber bool
+	Other      string
 }
 
 // Create a contact in the database.
