@@ -55,16 +55,34 @@ type Relationship struct {
 
 // Create a contact in the database.
 func (c *Contact) Create() error {
+
+	// Enforce the requirement of a name and email.
+	if c.Name == "" || c.Email == "" {
+		return errors.New("missing a name or email")
+	}
+
+	// All subscribers are customers, but not all customers are subscribers.
+	if c.Relationship.Subscriber {
+		c.Relationship.Customer = true
+	}
+
 	return DB.Create(&c).Error
 }
 
 // Update a contact that is in the database.
 func (c *Contact) Update(u Contact) error {
+
+	// All subscribers are customers, but not all customers are subscribers.
+	if u.Relationship.Subscriber {
+		u.Relationship.Customer = true
+	}
+
 	return DB.Model(&c).Updates(&u).Error
 }
 
 // Remove a contact that is in the database.
 func (c *Contact) Remove() error {
+
 	if c.ID == 0 {
 		return errors.New("need an ID")
 	}
