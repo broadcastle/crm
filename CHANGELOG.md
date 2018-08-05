@@ -6,7 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-- Notes about contacts.
+- Additional functionality for notes.
+
+## [0.3.0] - 2018-08-05
+
+### Added
+
+- Note functionality 
+- Minimum arguments to 'remove' and 'edit' commands.
+- Prevent arguments from being added to 'add' commands..
+- Ability to view all contacts.
+
+### Changed
+
+- Moved all 'crm contact' commands to a single file.
+- Renamed 'contact' sub-command functions.
+- Moved 'Note{}' to different file to prevent a single large file.
 
 ## [0.2.0] - 2018-08-04
 

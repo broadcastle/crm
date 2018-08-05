@@ -2,7 +2,6 @@ package db
 
 import (
 	"errors"
-	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -24,22 +23,6 @@ type Contact struct {
 	RelationshipID uint         `json:"relationship_id"`
 
 	Contacted bool `json:"contacted"`
-}
-
-// Note has information about a contact.
-type Note struct {
-	gorm.Model
-	ContactID uint
-
-	Header string `json:"header"`
-	Text   string `json:"text"`
-
-	Task bool      `json:"task"`
-	Due  time.Time `json:"due_date"`
-
-	Call  bool      `json:"call"`
-	Email bool      `json:"email"`
-	Event time.Time `json:"event"`
 }
 
 // Relationship describes what this contact does.
@@ -106,5 +89,16 @@ func (c *Contact) Query() error {
 	}
 
 	return DB.First(&c).Error
+
+}
+
+// QueryContacts returns all of the contacts in the database.
+func QueryContacts() ([]Contact, error) {
+
+	contacts := []Contact{}
+
+	err := DB.Find(&contacts).Error
+
+	return contacts, err
 
 }

@@ -21,11 +21,6 @@ func ContactView(cmd *cobra.Command, args []string) {
 	contacts := []db.Contact{}
 	var result bytes.Buffer
 
-	if len(args) < 1 {
-		logrus.Info("nothing returned")
-		return
-	}
-
 	for _, x := range args {
 
 		id, err := utils.UfS(x)
@@ -54,6 +49,17 @@ func ContactView(cmd *cobra.Command, args []string) {
 
 		// Append the contact to the contacts array.
 		contacts = append(contacts, contact)
+
+	}
+
+	if len(args) < 1 {
+		var err error
+
+		contacts, err = db.QueryContacts()
+		if err != nil {
+			logrus.Info("no contacts")
+			return
+		}
 
 	}
 

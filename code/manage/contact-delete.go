@@ -19,7 +19,6 @@ func ContactRemove(cmd *cobra.Command, args []string) {
 
 		id, err := utils.UfS(x)
 		if err != nil {
-			// logrus.Fatal(err)
 			logrus.Warn(err)
 			break
 		}
