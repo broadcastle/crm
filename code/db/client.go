@@ -14,16 +14,16 @@ var DB *gorm.DB
 type Contact struct {
 	gorm.Model
 
-	Name   string
-	Email  string
-	Number string
+	Name   string `json:"name"`
+	Email  string `json:"email"`
+	Number string `json:"number"`
 
-	Notes []Note
+	Notes []Note `json:"notes"`
 
-	Relationship   Relationship
-	RelationshipID uint
+	Relationship   Relationship `json:"relationship"`
+	RelationshipID uint         `json:"relationship_id"`
 
-	Contacted bool
+	Contacted bool `json:"contacted"`
 }
 
 // Note has information about a contact.
@@ -31,26 +31,26 @@ type Note struct {
 	gorm.Model
 	ContactID uint
 
-	Header string
-	Text   string
+	Header string `json:"header"`
+	Text   string `json:"text"`
 
-	Task bool
-	Due  time.Time
+	Task bool      `json:"task"`
+	Due  time.Time `json:"due_date"`
 
-	Call  bool
-	Email bool
-	Event time.Time
+	Call  bool      `json:"call"`
+	Email bool      `json:"email"`
+	Event time.Time `json:"event"`
 }
 
 // Relationship describes what this contact does.
 type Relationship struct {
 	gorm.Model
 
-	Lead       bool
-	Advocate   bool
-	Customer   bool
-	Subscriber bool
-	Other      string
+	Lead       bool   `json:"lead"`
+	Advocate   bool   `json:"advocate"`
+	Customer   bool   `json:"customer"`
+	Subscriber bool   `json:"subscriber"`
+	Other      string `json:"other"`
 }
 
 // Create a contact in the database.
@@ -87,7 +87,15 @@ func (c *Contact) Remove() error {
 		return errors.New("need an ID")
 	}
 
-	return DB.Delete(&c).Error
+	// Remove relationship entry.
+	rel := Relationship{}
+	DB.Model(&c).Related(&rel)
+
+	if err := DB.Delete(&c).Error; err != nil {
+		return err
+	}
+
+	return DB.Delete(&rel).Error
 }
 
 // Query a contact given an ID.

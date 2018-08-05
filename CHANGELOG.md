@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - Notes about contacts.
 
+## [0.2.0] - 2018-08-04
+
+### Added
+
+- Delete relationships from deleted contacts.
+- View contacts in database.
+- JSON fields for structs.
+
 ## [0.1.1] - 2018-08-04
 
 ### Added
