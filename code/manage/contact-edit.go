@@ -29,49 +29,49 @@ func ContactEdit(cmd *cobra.Command, args []string) {
 		logrus.Fatal(err)
 	}
 
-	update.Name, err = input(cmd, "name", "Client Name", contact.Name, false, false)
+	update.Name, err = utils.CobraInput(cmd, "name", "Client Name", contact.Name, false, false)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	update.Email, err = input(cmd, "email", "Client Email", contact.Email, false, false)
+	update.Email, err = utils.CobraInput(cmd, "email", "Client Email", contact.Email, false, false)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	update.Number, err = input(cmd, "phone", "Client Phone Number", contact.Number, false, false)
+	update.Number, err = utils.CobraInput(cmd, "phone", "Client Phone Number", contact.Number, false, false)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	update.Contacted, err = inputBool(cmd, "contacted", "Contact was made", contact.Contacted, false)
+	update.Contacted, err = utils.CobraInputBool(cmd, "contacted", "Contact was made", contact.Contacted, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	rel.Lead, err = inputBool(cmd, "lead", "Contact is a lead", rel.Lead, false)
+	rel.Lead, err = utils.CobraInputBool(cmd, "lead", "Contact is a lead", rel.Lead, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	rel.Subscriber, err = inputBool(cmd, "subscriber", "Contact is a subscriber", rel.Subscriber, false)
+	rel.Subscriber, err = utils.CobraInputBool(cmd, "subscriber", "Contact is a subscriber", rel.Subscriber, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
 	if !rel.Subscriber {
-		rel.Customer, err = inputBool(cmd, "customer", "Contact is a customer", rel.Customer, false)
+		rel.Customer, err = utils.CobraInputBool(cmd, "customer", "Contact is a customer", rel.Customer, false)
 		if err != nil {
 			logrus.Warn(err)
 		}
 	}
 
-	rel.Advocate, err = inputBool(cmd, "advocate", "Contact is a advocate", rel.Advocate, false)
+	rel.Advocate, err = utils.CobraInputBool(cmd, "advocate", "Contact is a advocate", rel.Advocate, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	rel.Other, err = input(cmd, "other", "Other customer relationship", rel.Other, false, false)
+	rel.Other, err = utils.CobraInput(cmd, "other", "Other customer relationship", rel.Other, false, false)
 	if err != nil {
 		logrus.Warn(err)
 	}

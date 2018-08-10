@@ -12,15 +12,15 @@ type Note struct {
 	gorm.Model
 	ContactID uint
 
-	Header string `json:"header"`
+	Header string `json:"header,omitempty"`
 	Text   string `json:"text"`
 
-	Task bool      `json:"task"`
-	Due  time.Time `json:"due_date"`
+	Task bool      `json:"task,omitempty"`
+	Due  time.Time `json:"due_date,omitempty"`
 
-	Call  bool      `json:"call"`
-	Email bool      `json:"email"`
-	Event time.Time `json:"event"`
+	Call  bool      `json:"call,omitempty"`
+	Email bool      `json:"email,omitempty"`
+	Event time.Time `json:"event,omitempty"`
 }
 
 // Add a single note.

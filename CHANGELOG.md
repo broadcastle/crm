@@ -7,6 +7,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased]
 
 - Additional functionality for notes.
+- Pretty output for contacts.
+- Pretty output for notes.
+- Tests.
+
+## [0.4.0] - 2018-08-09
+
+### Added
+
+- Alias 'contacts' for 'contact'.
+- Alias 'notes' for 'note'.
+- 'fast' flag to note creation.
+- Untested email functionality.
+
+### Changed
+
+- Moved cobra flag input functionality to utils.
+- 'note' now asks for input like 'contact'.
+
+### Fixed
+
+- Removed extra colon from note creation.
+- Mentions of client in 'cmd/contact.go'
 
 ## [0.3.0] - 2018-08-05
 

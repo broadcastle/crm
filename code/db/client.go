@@ -15,12 +15,12 @@ type Contact struct {
 
 	Name   string `json:"name"`
 	Email  string `json:"email"`
-	Number string `json:"number"`
+	Number string `json:"number,omitempty"`
 
-	Notes []Note `json:"notes"`
+	Notes []Note `json:"notes,omitempty"`
 
 	Relationship   Relationship `json:"relationship"`
-	RelationshipID uint         `json:"relationship_id"`
+	RelationshipID uint         `json:"-"`
 
 	Contacted bool `json:"contacted"`
 }
@@ -29,10 +29,10 @@ type Contact struct {
 type Relationship struct {
 	gorm.Model
 
-	Lead       bool   `json:"lead"`
-	Advocate   bool   `json:"advocate"`
-	Customer   bool   `json:"customer"`
-	Subscriber bool   `json:"subscriber"`
+	Lead       bool   `json:"lead,omitempty"`
+	Advocate   bool   `json:"advocate,omitempty"`
+	Customer   bool   `json:"customer,omitempty"`
+	Subscriber bool   `json:"subscriber,omitempty"`
 	Other      string `json:"other"`
 }
 

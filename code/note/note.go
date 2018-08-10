@@ -20,8 +20,6 @@ func Create(cmd *cobra.Command, args []string) {
 
 	note, contact := db.Note{}, db.Contact{}
 
-	var err error
-
 	id, err := cmd.Flags().GetInt("id")
 	if err != nil {
 		logrus.Fatal(err)
@@ -33,34 +31,48 @@ func Create(cmd *cobra.Command, args []string) {
 		logrus.Fatal(err)
 	}
 
-	note.Task, err = cmd.Flags().GetBool("task")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Call, err = cmd.Flags().GetBool("call")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Email, err = cmd.Flags().GetBool("email")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Header, err = cmd.Flags().GetString("header")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Text, err = utils.Input("text:", "")
-	if err != nil {
+	if err := questions(cmd, &note); err != nil {
 		logrus.Fatal(err)
 	}
 
 	if err := db.DB.Model(&contact).Association("Notes").Append(&note).Error; err != nil {
 		logrus.Fatal(err)
 	}
+
+}
+
+func questions(cmd *cobra.Command, note *db.Note) error {
+
+	fast, _ := cmd.Flags().GetBool("fast")
+
+	var err error
+
+	note.Task, err = utils.CobraInputBool(cmd, "task", "is this a task?", note.Task, fast)
+	if err != nil {
+		return err
+	}
+
+	note.Call, err = utils.CobraInputBool(cmd, "call", "was this a call?", note.Call, fast)
+	if err != nil {
+		return err
+	}
+
+	note.Email, err = utils.CobraInputBool(cmd, "email", "was this a email?", note.Email, fast)
+	if err != nil {
+		return err
+	}
+
+	note.Header, err = utils.CobraInput(cmd, "header", "note title", note.Header, fast, false)
+	if err != nil {
+		return err
+	}
+
+	note.Text, err = utils.Input("content", note.Text)
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }
 
@@ -82,28 +94,7 @@ func Edit(cmd *cobra.Command, args []string) {
 		logrus.Fatal(err)
 	}
 
-	note.Task, err = cmd.Flags().GetBool("task")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Call, err = cmd.Flags().GetBool("call")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Email, err = cmd.Flags().GetBool("email")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Header, err = cmd.Flags().GetString("header")
-	if err != nil {
-		logrus.Fatal(err)
-	}
-
-	note.Text, err = utils.Input("text", orig.Text)
-	if err != nil {
+	if err := questions(cmd, &note); err != nil {
 		logrus.Fatal(err)
 	}
 
@@ -148,6 +139,7 @@ func View(cmd *cobra.Command, args []string) {
 
 	notes := []db.Note{}
 	var result bytes.Buffer
+	var err error
 
 	for _, x := range args {
 
@@ -170,7 +162,6 @@ func View(cmd *cobra.Command, args []string) {
 	}
 
 	if len(args) < 1 {
-		var err error
 
 		notes, err = db.QueryNotes()
 		if err != nil {
@@ -180,7 +171,9 @@ func View(cmd *cobra.Command, args []string) {
 
 	}
 
-	output, err := json.Marshal(&notes)
+	var output []byte
+
+	output, err = json.Marshal(&notes)
 	if err != nil {
 		logrus.Fatal(err)
 	}

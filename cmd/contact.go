@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// contactCmd represents the client command
+// contactCmd represents the contact command
 var contactCmd = &cobra.Command{
 	Use:   "contact",
 	Short: "Manage your contacts.",
@@ -38,17 +38,27 @@ var contactViewCmd = &cobra.Command{
 	Run:   manage.ContactView,
 }
 
+var contactEmailCmd = &cobra.Command{
+	Use:   "email",
+	Short: "Email a contact.",
+	Args:  cobra.ExactArgs(1),
+	Run:   manage.Email,
+}
+
 func init() {
+
+	contactCmd.Aliases = append(contactCmd.Aliases, "contacts")
 
 	RootCmd.AddCommand(contactCmd)
 	contactCmd.AddCommand(contactAddCmd)
 	contactCmd.AddCommand(contactEditCmd)
 	contactCmd.AddCommand(contactRemoveCmd)
 	contactCmd.AddCommand(contactViewCmd)
+	contactCmd.AddCommand(contactEmailCmd)
 
 	// Add
 	contactFlags(contactAddCmd)
-	contactAddCmd.Flags().BoolP("fast", "f", false, "create a client entry only using a name and email")
+	contactAddCmd.Flags().BoolP("fast", "f", false, "create a contact entry only using a name and email")
 
 	// Edit
 	contactFlags(contactEditCmd)

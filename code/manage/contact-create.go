@@ -2,6 +2,7 @@ package manage
 
 import (
 	"broadcastle.co/code/crm/code/db"
+	"broadcastle.co/code/crm/code/utils"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -24,7 +25,7 @@ func ContactCreate(cmd *cobra.Command, args []string) {
 
 	for {
 
-		contact.Name, err = input(cmd, "name", "Contact Name", "", false, false)
+		contact.Name, err = utils.CobraInput(cmd, "name", "Contact Name", "", false, false)
 		if err != nil {
 			logrus.Fatal(err)
 		}
@@ -37,7 +38,7 @@ func ContactCreate(cmd *cobra.Command, args []string) {
 
 	for {
 
-		contact.Email, err = input(cmd, "email", "Contact Email", "", false, false)
+		contact.Email, err = utils.CobraInput(cmd, "email", "Contact Email", "", false, false)
 		if err != nil {
 			logrus.Fatal(err)
 		}
@@ -48,41 +49,41 @@ func ContactCreate(cmd *cobra.Command, args []string) {
 
 	}
 
-	contact.Number, err = input(cmd, "phone", "Contact Phone Number", "", fast, false)
+	contact.Number, err = utils.CobraInput(cmd, "phone", "Contact Phone Number", "", fast, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	contact.Contacted, err = inputBool(cmd, "contacted", "Contact was made", false, fast)
+	contact.Contacted, err = utils.CobraInputBool(cmd, "contacted", "Contact was made", false, fast)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	contact.Relationship.Lead, err = inputBool(cmd, "lead", "Contact is a lead", false, fast)
+	contact.Relationship.Lead, err = utils.CobraInputBool(cmd, "lead", "Contact is a lead", false, fast)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	contact.Relationship.Subscriber, err = inputBool(cmd, "subscriber", "Contact is a subscriber", false, fast)
+	contact.Relationship.Subscriber, err = utils.CobraInputBool(cmd, "subscriber", "Contact is a subscriber", false, fast)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
 	if !contact.Relationship.Subscriber {
 
-		contact.Relationship.Customer, err = inputBool(cmd, "customer", "Contact is a customer", false, fast)
+		contact.Relationship.Customer, err = utils.CobraInputBool(cmd, "customer", "Contact is a customer", false, fast)
 		if err != nil {
 			logrus.Warn(err)
 		}
 
 	}
 
-	contact.Relationship.Advocate, err = inputBool(cmd, "advocate", "Contact is a advocate", false, fast)
+	contact.Relationship.Advocate, err = utils.CobraInputBool(cmd, "advocate", "Contact is a advocate", false, fast)
 	if err != nil {
 		logrus.Warn(err)
 	}
 
-	contact.Relationship.Other, err = input(cmd, "other", "Other customer relationship", "N/A", fast, false)
+	contact.Relationship.Other, err = utils.CobraInput(cmd, "other", "Other customer relationship", "N/A", fast, false)
 	if err != nil {
 		logrus.Warn(err)
 	}
