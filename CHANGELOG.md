@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Pretty output for contacts.
 - Pretty output for notes.
 - Tests.
+- Email address validation.
+
+## [0.5.0] - 2018-08-10
+
+### Added
+
+- 'email' command.
+- Ability to view existing emails.
+- Slugs for contacts.
+- Ability to use slugs in addition to id's with contact commands.
 
 ## [0.4.0] - 2018-08-09
 

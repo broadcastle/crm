@@ -3,6 +3,7 @@ package db
 import (
 	"errors"
 
+	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
 )
 
@@ -16,6 +17,7 @@ type Contact struct {
 	Name   string `json:"name"`
 	Email  string `json:"email"`
 	Number string `json:"number,omitempty"`
+	Slug   string `json:"slug"`
 
 	Notes []Note `json:"notes,omitempty"`
 
@@ -49,6 +51,8 @@ func (c *Contact) Create() error {
 		c.Relationship.Customer = true
 	}
 
+	c.Slug = slug.Make(c.Name)
+
 	return DB.Create(&c).Error
 }
 
@@ -81,6 +85,21 @@ func (c *Contact) Remove() error {
 	return DB.Delete(&rel).Error
 }
 
+// Fill the contact with all additional data.
+func (c *Contact) Fill() error {
+
+	var e Relationship
+
+	if err := DB.Model(&c).Related(&e).Error; err != nil {
+		return err
+	}
+
+	c.Relationship = e
+
+	return nil
+
+}
+
 // Query a contact given an ID.
 func (c *Contact) Query() error {
 
@@ -88,7 +107,11 @@ func (c *Contact) Query() error {
 		return errors.New("need an ID")
 	}
 
-	return DB.First(&c).Error
+	if err := DB.First(&c).Error; err != nil {
+		return err
+	}
+
+	return c.Fill()
 
 }
 
@@ -101,4 +124,25 @@ func QueryContacts() ([]Contact, error) {
 
 	return contacts, err
 
+}
+
+// Search returns a single contact that matches c.
+func (c *Contact) Search() (err error) {
+
+	err = DB.Where(&c).First(&c).Error
+
+	return c.Fill()
+
+}
+
+// SearchMultiple returns multiple contacts that match c.
+func (c *Contact) SearchMultiple() (result []Contact, err error) {
+
+	err = DB.Where(&c).Find(&result).Error
+
+	for y := range result {
+		err = result[y].Fill()
+	}
+
+	return
 }

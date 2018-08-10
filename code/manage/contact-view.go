@@ -18,38 +18,11 @@ func ContactView(cmd *cobra.Command, args []string) {
 	db.Init()
 	defer db.Close()
 
-	contacts := []db.Contact{}
 	var result bytes.Buffer
 
-	for _, x := range args {
-
-		id, err := utils.UfS(x)
-		if err != nil {
-			logrus.Warn(err)
-			break
-		}
-
-		contact := db.Contact{}
-		contact.ID = id
-
-		if err := contact.Query(); err != nil {
-			logrus.Warn(err)
-			break
-		}
-
-		// Get the relationships of a status.
-		var e db.Relationship
-
-		if err := db.DB.Model(&contact).Related(&e).Error; err != nil {
-			logrus.Warn(err)
-			break
-		}
-
-		contact.Relationship = e
-
-		// Append the contact to the contacts array.
-		contacts = append(contacts, contact)
-
+	contacts, err := utils.Contacts(cmd, args)
+	if err != nil {
+		logrus.Fatal(err)
 	}
 
 	if len(args) < 1 {

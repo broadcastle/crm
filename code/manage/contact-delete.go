@@ -15,22 +15,18 @@ func ContactRemove(cmd *cobra.Command, args []string) {
 	db.Init()
 	defer db.Close()
 
-	for _, x := range args {
+	contacts, err := utils.Contacts(cmd, args)
+	if err != nil {
+		logrus.Fatal(err)
+	}
 
-		id, err := utils.UfS(x)
-		if err != nil {
-			logrus.Warn(err)
-			break
-		}
+	for x := range contacts {
 
-		contact := db.Contact{}
-		contact.ID = id
-
-		if err := contact.Remove(); err != nil {
+		if err := contacts[x].Remove(); err != nil {
 			logrus.Fatal(err)
 		}
 
-		logrus.Debugf("contact with id #%s was removed", x)
+		logrus.Debugf("%s was removed as a contact", contacts[x].Name)
 
 	}
 
