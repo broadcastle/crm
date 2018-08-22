@@ -12,8 +12,7 @@ type Note struct {
 	gorm.Model
 	ContactID uint
 
-	Header string `json:"header,omitempty"`
-	Text   string `json:"text"`
+	Text string `json:"text"`
 
 	Task bool      `json:"task,omitempty"`
 	Due  time.Time `json:"due_date,omitempty"`
@@ -23,8 +22,8 @@ type Note struct {
 	Event time.Time `json:"event,omitempty"`
 }
 
-// Add a single note.
-func (n *Note) Add() error {
+// Create a single note.
+func (n *Note) Create() error {
 
 	if n.ContactID == 0 {
 		return errors.New("missing a contact ID")
@@ -34,8 +33,9 @@ func (n *Note) Add() error {
 }
 
 // Update a single note.
-func (n *Note) Update(u Note) error {
-	return DB.Model(&n).Updates(&u).Error
+func (n *Note) Update() error {
+	// return DB.Model(&n).Updates(&n).Error
+	return DB.Save(&n).Error
 }
 
 // Remove a single note.

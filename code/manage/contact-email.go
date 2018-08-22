@@ -3,7 +3,6 @@ package manage
 import (
 	"net/smtp"
 
-	"broadcastle.co/code/crm/code/db"
 	"broadcastle.co/code/crm/code/utils"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -13,8 +12,8 @@ import (
 // Email sends a email to a contact.
 func Email(cmd *cobra.Command, args []string) {
 
-	db.Init()
-	defer db.Close()
+	Init()
+	defer Close()
 
 	// id, err := utils.UfS(args[0])
 	// if err != nil {

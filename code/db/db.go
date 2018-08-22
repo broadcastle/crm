@@ -7,7 +7,6 @@ func Init() {
 
 	DB.AutoMigrate(&Contact{})
 	DB.AutoMigrate(&Note{})
-	DB.AutoMigrate(&Relationship{})
 }
 
 // Close the database.

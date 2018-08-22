@@ -49,22 +49,4 @@ func init() {
 	noteCmd.AddCommand(noteRemoveCmd)
 	noteCmd.AddCommand(noteViewCmd)
 
-	noteFlags(noteAddCmd)
-	noteFlags(noteEditCmd)
-
-	noteAddCmd.Flags().Int("id", 0, "id of contact")
-	noteAddCmd.MarkFlagRequired("id")
-
-	noteViewCmd.Flags().BoolP("raw", "r", false, "show the raw output")
-
-}
-
-func noteFlags(cmd *cobra.Command) {
-
-	cmd.Flags().BoolP("task", "t", false, "this is/was a task")
-	cmd.Flags().BoolP("call", "c", false, "this is/was a call")
-	cmd.Flags().BoolP("email", "e", false, "this is/was a email")
-	cmd.Flags().String("header", "", "header for this note")
-	cmd.Flags().BoolP("fast", "f", false, "create a quick note")
-
 }

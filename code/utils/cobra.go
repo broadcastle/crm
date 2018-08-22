@@ -52,7 +52,7 @@ func CobraInputBool(cmd *cobra.Command, flag string, hint string, value bool, sk
 
 }
 
-// Contacts returns contacts from a 'id' flag or from arguments.
+// Contacts returns contacts from arguments.
 func Contacts(cmd *cobra.Command, args []string) ([]db.Contact, error) {
 
 	contacts := []db.Contact{}

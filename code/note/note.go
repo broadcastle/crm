@@ -3,11 +3,11 @@ package note
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
-	"os"
 
 	"broadcastle.co/code/crm/code/db"
+	"broadcastle.co/code/crm/code/tui"
 	"broadcastle.co/code/crm/code/utils"
+	"github.com/rivo/tview"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -18,61 +18,19 @@ func Create(cmd *cobra.Command, args []string) {
 	db.Init()
 	defer db.Close()
 
-	note, contact := db.Note{}, db.Contact{}
+	app := &tui.App{
+		tview.NewApplication(),
+	}
 
-	id, err := cmd.Flags().GetInt("id")
-	if err != nil {
+	form := app.NoteForm(0)
+
+	form.SetBorder(true).
+		SetTitle("Create A New Note").
+		SetTitleAlign(tview.AlignCenter)
+
+	if err := app.SetRoot(form, true).SetFocus(form).Run(); err != nil {
 		logrus.Fatal(err)
 	}
-
-	contact.ID = uint(id)
-
-	if err := contact.Query(); err != nil {
-		logrus.Fatal(err)
-	}
-
-	if err := questions(cmd, &note); err != nil {
-		logrus.Fatal(err)
-	}
-
-	if err := db.DB.Model(&contact).Association("Notes").Append(&note).Error; err != nil {
-		logrus.Fatal(err)
-	}
-
-}
-
-func questions(cmd *cobra.Command, note *db.Note) error {
-
-	fast, _ := cmd.Flags().GetBool("fast")
-
-	var err error
-
-	note.Task, err = utils.CobraInputBool(cmd, "task", "is this a task?", note.Task, fast)
-	if err != nil {
-		return err
-	}
-
-	note.Call, err = utils.CobraInputBool(cmd, "call", "was this a call?", note.Call, fast)
-	if err != nil {
-		return err
-	}
-
-	note.Email, err = utils.CobraInputBool(cmd, "email", "was this a email?", note.Email, fast)
-	if err != nil {
-		return err
-	}
-
-	note.Header, err = utils.CobraInput(cmd, "header", "note title", note.Header, fast, false)
-	if err != nil {
-		return err
-	}
-
-	note.Text, err = utils.Input("content", note.Text)
-	if err != nil {
-		return err
-	}
-
-	return nil
 
 }
 
@@ -87,18 +45,17 @@ func Edit(cmd *cobra.Command, args []string) {
 		logrus.Fatal(err)
 	}
 
-	orig, note := db.Note{}, db.Note{}
-	orig.ID = id
-
-	if err := orig.Query(); err != nil {
-		logrus.Fatal(err)
+	app := &tui.App{
+		tview.NewApplication(),
 	}
 
-	if err := questions(cmd, &note); err != nil {
-		logrus.Fatal(err)
-	}
+	form := app.NoteForm(id)
 
-	if err := orig.Update(note); err != nil {
+	form.SetBorder(true).
+		SetTitle("Edit A Note").
+		SetTitleAlign(tview.AlignCenter)
+
+	if err := app.SetRoot(form, true).SetFocus(form).Run(); err != nil {
 		logrus.Fatal(err)
 	}
 
@@ -180,29 +137,6 @@ func View(cmd *cobra.Command, args []string) {
 
 	if err := json.Indent(&result, output, "", " "); err != nil {
 		logrus.Fatal(err)
-	}
-
-	logrus.Info(string(result.Bytes()))
-
-	dir, err := cmd.Flags().GetString("output")
-	if err != nil {
-		logrus.Warn(err)
-		return
-	}
-
-	force, _ := cmd.Flags().GetBool("force")
-
-	if dir != "" {
-
-		// Create a file with the dirs.
-		if _, err := os.Stat(dir); err == nil && !force {
-			logrus.Warn("file exists, force flag required")
-		}
-
-		if err := ioutil.WriteFile(dir, result.Bytes(), 0644); err != nil {
-			logrus.Fatal(err)
-		}
-
 	}
 
 }

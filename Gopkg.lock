@@ -8,6 +8,24 @@
   version = "v1.4.7"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/gdamore/encoding"
+  packages = ["."]
+  revision = "b23993cbb6353f0e6aa98d0ee318a34728f628b9"
+
+[[projects]]
+  name = "github.com/gdamore/tcell"
+  packages = [".","terminfo"]
+  revision = "de7e78efa4a71b3f36c7154989c529dbdf9ae623"
+  version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/gosimple/slug"
   packages = ["."]
   revision = "91d42f4c3433698e88e87b17a3efbfe40b67c323"
@@ -38,10 +56,22 @@
   revision = "04140366298a54a039076d798123ffa108fff46c"
 
 [[projects]]
+  name = "github.com/lucasb-eyer/go-colorful"
+  packages = ["."]
+  revision = "345fbb3dbcdb252d9985ee899a84963c0fa24c82"
+  version = "v1.0"
+
+[[projects]]
   name = "github.com/magiconair/properties"
   packages = ["."]
   revision = "c2353362d570a7bfa228149c62842019201cfb71"
   version = "v1.8.0"
+
+[[projects]]
+  name = "github.com/mattn/go-runewidth"
+  packages = ["."]
+  revision = "ce7b0b5c7b45a81508558cd1dba6bb1e4ddb51bb"
+  version = "v0.0.3"
 
 [[projects]]
   name = "github.com/mattn/go-sqlite3"
@@ -62,6 +92,12 @@
   revision = "f15292f7a699fcc1a38a80977f80a046874ba8ac"
 
 [[projects]]
+  name = "github.com/nyaruka/phonenumbers"
+  packages = ["."]
+  revision = "a90367d3be485473652f7c34e98cb79f4190c899"
+  version = "v1.0.24"
+
+[[projects]]
   name = "github.com/pelletier/go-toml"
   packages = ["."]
   revision = "c01d1270ff3e442a8a57cddc1c92dc1138598194"
@@ -72,6 +108,12 @@
   name = "github.com/rainycape/unidecode"
   packages = ["."]
   revision = "cb7f23ec59bec0d61b19c56cd88cee3d0cc1870c"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/rivo/tview"
+  packages = ["."]
+  revision = "77bcb6c6b90013b92d068f114f3d1b9b9f9e5a0b"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -129,7 +171,7 @@
 
 [[projects]]
   name = "golang.org/x/text"
-  packages = ["internal/gen","internal/triegen","internal/ucd","transform","unicode/cldr","unicode/norm"]
+  packages = ["encoding","encoding/internal/identifier","internal/gen","internal/triegen","internal/ucd","transform","unicode/cldr","unicode/norm"]
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
 
@@ -142,6 +184,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8f2213c94a59787742d0fc7dab4f379614c17158037ce5e34aa5e741a18cf122"
+  inputs-digest = "46337cd08d29eb277ab76bb46c5e6844184bb6fd24d8cb666c65c4595bf0b435"
   solver-name = "gps-cdcl"
   solver-version = 1

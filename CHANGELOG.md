@@ -7,10 +7,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased]
 
 - Additional functionality for notes.
-- Pretty output for contacts.
 - Pretty output for notes.
 - Tests.
 - Email address validation.
+
+## [1.0.0] - 2018-08-22
+
+### Added
+
+- TUI for contact create, editing, viewing, and removing.
+- TUI for note creation and editing.
+- Phone number formating.
+
+### Removed
+
+- Flags for contact and note creation.
+- Saving results from searches.
 
 ## [0.5.0] - 2018-08-10
 
