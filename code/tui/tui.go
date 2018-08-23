@@ -1,8 +1,6 @@
 package tui
 
 import (
-	"strconv"
-
 	"broadcastle.co/code/crm/code/db"
 	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
@@ -72,45 +70,19 @@ func (a *App) Table(v interface{}) *tview.Table {
 	return table
 }
 
-func tableContacts(table *tview.Table, data []db.Contact) {
+// Form takes interface and return a form for it.
+func (a *App) Form(v interface{}) *tview.Form {
 
-	rows := len(data)
+	form := tview.NewForm()
 
-	headers := []string{"ID", "Name", "Email", "Number", "Relationship", "Contacted"}
-
-	for x := range headers {
-		table.SetCellSimple(0, x, headers[x])
+	switch v.(type) {
+	case db.Contact:
+		formContacts(a, form, v.(db.Contact))
+	default:
+		logrus.Fatal("interface not supported")
 	}
 
-	for r := 0; r < rows; r++ {
-
-		relationship := "N/A"
-
-		switch {
-		case data[r].Lead:
-			relationship = "Lead"
-		case data[r].Advocate:
-			relationship = "Advocate"
-		case data[r].Customer:
-			relationship = "Customer"
-		case data[r].Subscriber:
-			relationship = "Subscriber"
-		}
-
-		columns := []string{
-			strconv.Itoa(int(data[r].ID)),
-			data[r].Name,
-			data[r].Email,
-			data[r].Number,
-			relationship,
-			strconv.FormatBool(data[r].Contacted),
-		}
-
-		for c := range columns {
-			table.SetCellSimple(r+1, c, columns[c])
-		}
-
-	}
+	return form
 
 }
 

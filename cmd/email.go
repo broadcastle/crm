@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"broadcastle.co/code/crm/code/email"
 	"github.com/spf13/cobra"
 )
 
@@ -13,19 +12,19 @@ var emailCmd = &cobra.Command{
 var emailCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a email and send it.",
-	Run:   email.Create,
+	// Run:   email.Create,
 }
 
 var emailRemoveCmd = &cobra.Command{
 	Use:   "remove",
 	Short: "Remove a email.",
-	Run:   email.Remove,
+	// Run:   email.Remove,
 }
 
 var emailViewCmd = &cobra.Command{
 	Use:   "view",
 	Short: "view a email.",
-	Run:   email.View,
+	// Run:   email.View,
 }
 
 func init() {

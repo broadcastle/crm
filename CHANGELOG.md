@@ -11,6 +11,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Tests.
 - Email address validation.
 
+## [1.1.0] - 2018-08-22
+
+### Added
+
+- Asciinema demo of contact functionality.
+- Flags for contact creation.
+- Go report card.
+
+### Removed
+
+- '--config' and '--debug' global flags.
+- 'email' sub-command for 'crm' and 'contact' commands.
+
+### Changed
+
+- README description.
+
+### Fixed
+
+- Misspelled word.
+
 ## [1.0.0] - 2018-08-22
 
 ### Added

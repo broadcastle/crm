@@ -25,7 +25,7 @@ func ContactEdit(cmd *cobra.Command, args []string) {
 			tview.NewApplication(),
 		}
 
-		form := app.ContactForm(contact.ID)
+		form := app.Form(contact)
 
 		form.SetBorder(true).
 			SetTitle("Edit " + contact.Name).

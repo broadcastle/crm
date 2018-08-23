@@ -8,7 +8,7 @@ import (
 	"github.com/nyaruka/phonenumbers"
 )
 
-// DB is accessable database.
+// DB is the accessible database.
 var DB *gorm.DB
 
 // Contact is the main person.
